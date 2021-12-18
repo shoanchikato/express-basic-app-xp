@@ -56,8 +56,12 @@ function authServiceFactory(userRepo) {
     const user = await userRepo.getAuthUsername(value.username);
 
     if (!user) {
+      // if user username/email is not found
+      // wrong credentails were provided
+      // NB: to avoid supplying details to hackers
+      // in brute force attacks not detailed error message
       throw new BadRequestError({
-        message: "error logging in user",
+        message: "invalid credentials",
         reqBody: credentials,
       });
     }
