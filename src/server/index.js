@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const session = require("express-session");
 
 const errorHandler = require("../error/erorrHandler");
+const { APP_SESSION_COOKIE } = require("../constants");
 
 function serverFactory({
   sessionStore,
@@ -15,21 +16,20 @@ function serverFactory({
 }) {
   const app = express();
 
-  console.log(new Date().toLocaleString())
-  console.log(new Date())
-  console.log(Date.now())
+  console.log(new Date().toLocaleString());
+  console.log(new Date());
+  console.log(Date.now());
 
   // session management
   const sessionOpt = {
     secret: "keyboard cat",
-    name: "express.session",
+    name: APP_SESSION_COOKIE,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 10 
+      maxAge: 1000 * 10,
     },
     store: sessionStore,
-    
   };
 
   if (app.get("env") === "production") {
@@ -48,6 +48,7 @@ function serverFactory({
 
   // express body parser
   app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
   // routes
   app.get("/", (req, res) => {

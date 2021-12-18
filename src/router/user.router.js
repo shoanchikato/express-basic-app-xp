@@ -3,7 +3,7 @@ const { BadRequestError } = require("../error/errors");
 const routerErrorHandler = require("../error/routerErrorHandler");
 const router = express.Router();
 
-function userRepoFactory(userRepo) {
+function userRepoFactory(userRepo, authService) {
   const getIdParam = (reqParams) => {
     const id = parseInt(reqParams.id);
 
@@ -37,7 +37,7 @@ function userRepoFactory(userRepo) {
   router.post(
     "/",
     routerErrorHandler(async (req, res) => {
-      const user = await userRepo.save(req.body);
+      const user = await authService.registerUser(req.body)
 
       res.status(201).json(user);
     })

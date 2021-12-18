@@ -34,7 +34,7 @@ async function appFactory() {
   // router
   const postRouter = postRouterFactory(postRepo);
   const postTemplate = postTemplateFactory(postRepo);
-  const userRouter = userRouterFactory(userRepo);
+  const userRouter = userRouterFactory(userRepo, authService);
   const authRouter = await authRouterFactory(authService);
 
   const server = serverFactory({
