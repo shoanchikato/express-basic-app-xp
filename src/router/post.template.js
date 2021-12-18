@@ -1,5 +1,5 @@
 const express = require("express");
-const { APP_SESSION_COOKIE } = require("../constants");
+const { APP_SESSION_COOKIE_NAME } = require("../constants");
 const router = express.Router();
 
 const routerErrorHandler = require("../error/routerErrorHandler");
@@ -28,7 +28,7 @@ function postFactoryTemplate(postRepo) {
         const id = req.session.id;
         console.log(id);
         req.session.destroy();
-        res.clearCookie(APP_SESSION_COOKIE);
+        res.clearCookie(APP_SESSION_COOKIE_NAME);
       }
 
       res.render("index", { posts });

@@ -5,7 +5,7 @@ const helmet = require("helmet");
 const session = require("express-session");
 
 const errorHandler = require("../error/erorrHandler");
-const { APP_SESSION_COOKIE } = require("../constants");
+const { APP_SESSION_COOKIE_NAME } = require("../constants");
 
 function serverFactory({
   sessionStore,
@@ -23,7 +23,7 @@ function serverFactory({
   // session management
   const sessionOpt = {
     secret: "keyboard cat",
-    name: APP_SESSION_COOKIE,
+    name: APP_SESSION_COOKIE_NAME,
     resave: false,
     saveUninitialized: false,
     cookie: {

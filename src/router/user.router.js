@@ -37,7 +37,7 @@ function userRepoFactory(userRepo, authService) {
   router.post(
     "/",
     routerErrorHandler(async (req, res) => {
-      const user = await authService.registerUser(req.body)
+      const user = await authService.registerUser(req.body);
 
       res.status(201).json(user);
     })
