@@ -31,7 +31,7 @@ function postFactoryTemplate(postRepo) {
         res.clearCookie(APP_SESSION_COOKIE_NAME);
       }
 
-      res.render("index", { posts });
+      res.render("posts", { posts });
     })
   );
 
