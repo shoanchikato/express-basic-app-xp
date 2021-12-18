@@ -10,6 +10,6 @@ html(lang="en")
         h2 Posts 
         for post in posts 
             div 
-                a(href=`/pages/${post.id}`)
+                a(href=`/posts/${post.id}`)
                     h3 #{post.id}) #{post.title}
                 p #{post.body}

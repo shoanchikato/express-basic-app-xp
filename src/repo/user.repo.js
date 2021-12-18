@@ -70,21 +70,17 @@ function userRepoFactory(db) {
     return await userRepo.save(dbUser);
   };
 
-  const getUserHashByEmail = async (email) => {
+  const getAuthUsername = async (email) => {
     const user = await userRepo
       .createQueryBuilder("user")
       .where("user.email = :email", { email })
       .select(["user.password"])
       .getOne();
 
-    if (!user) {
-      throw new NotFoundError(`user with email address ${email} not found`);
-    }
-
     return user;
   };
 
-  return { save, getAll, getById, deleteOne, update, getUserHashByEmail };
+  return { save, getAll, getById, deleteOne, update, getAuthUsername };
 }
 
 module.exports = userRepoFactory;

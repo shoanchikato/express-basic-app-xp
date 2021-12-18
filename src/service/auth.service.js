@@ -53,7 +53,14 @@ function authServiceFactory(userRepo) {
       });
     }
 
-    const user = await userRepo.getUserHashByEmail(value.username);
+    const user = await userRepo.getAuthUsername(value.username);
+
+    if (!user) {
+      throw new BadRequestError({
+        message: "error logging in user",
+        reqBody: credentials,
+      });
+    }
 
     const isPasswordMatch = await matchPassword(
       credentials.password,

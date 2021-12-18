@@ -13,6 +13,7 @@ function serverFactory({
   userRouter,
   postTemplate,
   authRouter,
+  authTemplate,
 }) {
   const app = express();
 
@@ -55,10 +56,11 @@ function serverFactory({
     res.send("hello world!");
   });
 
-  app.use("/pages", postTemplate);
-  app.use("/posts", postRouter);
-  app.use("/users", userRouter);
-  app.use("/auth", authRouter);
+  app.use("/posts", postTemplate);
+  app.use("/auth", authTemplate);
+  app.use("/api/posts", postRouter);
+  app.use("/api/users", userRouter);
+  app.use("/api/auth", authRouter);
 
   // templates
   app.set("views", path.join(__dirname, "../views"));

@@ -4,6 +4,7 @@ const { TypeormStore } = require("connect-typeorm");
 const serverFactory = require("../server");
 const postRouterFactory = require("../router/post.router");
 const postTemplateFactory = require("../router/post.template");
+const authTemplateFactory = require("../router/auth.template");
 const userRouterFactory = require("../router/user.router");
 const authRouterFactory = require("../router/auth.router");
 const postRepoFactory = require("../repo/post.repo");
@@ -34,6 +35,7 @@ async function appFactory() {
   // router
   const postRouter = postRouterFactory(postRepo);
   const postTemplate = postTemplateFactory(postRepo);
+  const authTemplate = authTemplateFactory(authService);
   const userRouter = userRouterFactory(userRepo, authService);
   const authRouter = await authRouterFactory(authService);
 
@@ -43,6 +45,7 @@ async function appFactory() {
     userRouter,
     postTemplate,
     authRouter,
+    authTemplate,
   });
 
   return server;
