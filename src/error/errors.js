@@ -5,7 +5,7 @@ class NotFoundError extends Error {
 }
 
 class BadRequestError extends Error {
-  constructor({ message = "", validation = "", reqBody = {}, args = [] }) {
+  constructor({ message = "", validation = [], reqBody = {}, args = [] }) {
     super(message, validation, reqBody, ...args);
 
     this.validation = validation;
