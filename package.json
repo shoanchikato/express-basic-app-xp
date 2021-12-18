@@ -1,0 +1,31 @@
+{
+  "name": "json-placeholder-demo",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon .",
+    "fmt": "yarn prettier -w src",
+
+    "run:migration": "yarn typeorm migration:run -f src/db/ormconfig.js",
+    "gen:migration": "yarn typeorm migration:generate -o -f src/db/ormconfig.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "connect-typeorm": "^1.1.4",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "helmet": "^4.6.0",
+    "joi": "^17.5.0",
+    "node-fetch": "2",
+    "pug": "^3.0.2",
+    "sqlite3": "^5.0.2",
+    "typeorm": "^0.2.41",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  }
+}
