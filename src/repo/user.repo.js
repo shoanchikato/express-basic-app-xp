@@ -7,6 +7,12 @@ const {
 function userRepoFactory(db) {
   const userRepo = db.getRepository("User");
 
+  // NB: if you are using email as the unique identify
+  // make sure to first check if the unique identify
+  // is already existing in the database and also by
+  // setting a constrant in database schema. Finally
+  // check for database errors caused by voilating
+  // the unique constraint rule
   const save = async (user) => {
     const dbUser = await userRepo
       .createQueryBuilder("user")
@@ -16,6 +22,7 @@ function userRepoFactory(db) {
     if (dbUser) {
       throw new BadRequestError({
         message: `email is ready taken, ${user.email}`,
+        reqBody: { email: user.email },
       });
     }
 
@@ -28,6 +35,7 @@ function userRepoFactory(db) {
       if (isDuplicateError && isEmail) {
         throw new BadRequestError({
           message: `email is ready taken, ${user.email}`,
+          reqBody: { email: user.email },
         });
       } else {
         throw new InternalServerError(`error occurred saving user`);

@@ -27,7 +27,7 @@ function authServiceFactory(userRepo) {
 
       throw new BadRequestError({
         message: "error registering user",
-        errorMsgs,
+        validation: errorMsgs,
       });
     }
 
@@ -58,11 +58,11 @@ function authServiceFactory(userRepo) {
     if (!user) {
       // if user username/email is not found
       // wrong credentails were provided
-      // NB: to avoid supplying details to hackers
-      // in brute force attacks not detailed error message
+      // NB: to avoid supplying details to hackers in brute
+      // force attacks no detailed error message should be
+      // provided
       throw new BadRequestError({
         message: "invalid credentials",
-        reqBody: credentials,
       });
     }
 

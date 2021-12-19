@@ -17,10 +17,6 @@ function serverFactory({
 }) {
   const app = express();
 
-  console.log(new Date().toLocaleString());
-  console.log(new Date());
-  console.log(Date.now());
-
   // session management
   const sessionOpt = {
     secret: "keyboard cat",

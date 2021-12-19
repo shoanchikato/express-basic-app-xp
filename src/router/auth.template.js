@@ -17,19 +17,15 @@ function authTemplateFactory(authService) {
       if (isPasswordMatch) {
         // on successful login
         req.session.isAuthenticated = true;
-      
-        res.redirect("/posts");
 
+        res.redirect("/posts");
       } else {
         // on failure to login
         throw new BadRequestError({
           message: "invalid credentails",
           reqBody: req.body,
         });
-
       }
-
-
     } catch (err) {
       // catch errors from both service and
       // invalid login
