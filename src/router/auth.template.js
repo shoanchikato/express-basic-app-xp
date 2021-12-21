@@ -3,12 +3,14 @@ const router = express.Router();
 
 const { BadRequestError } = require("../error/errors");
 
-function authTemplateFactory(authService) {
-  router.get("/login", async (req, res) => {
-    res.render("login");
+function authTemplateFactory(authService, csrfProtection) {
+  router.get("/login", csrfProtection, async (req, res) => {
+    console.log(req.session);
+    const token = req.csrfToken()
+    res.render("login", { csrfToken: token });
   });
 
-  router.post("/login", async (req, res) => {
+  router.post("/login", csrfProtection, async (req, res) => {
     const credentials = req.body;
 
     try {

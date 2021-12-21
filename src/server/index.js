@@ -1,52 +1,15 @@
 const path = require("path");
-const express = require("express");
-const compression = require("compression");
-const helmet = require("helmet");
-const session = require("express-session");
 
 const errorHandler = require("../error/erorrHandler");
-const { APP_SESSION_COOKIE_NAME } = require("../constants");
 
 function serverFactory({
-  sessionStore,
+  app,
   postRouter,
   userRouter,
   postTemplate,
   authRouter,
   authTemplate,
 }) {
-  const app = express();
-
-  // session management
-  const sessionOpt = {
-    secret: "keyboard cat",
-    name: APP_SESSION_COOKIE_NAME,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 10,
-    },
-    store: sessionStore,
-  };
-
-  if (app.get("env") === "production") {
-    app.set("trust proxy", 1); // trust first proxy
-    sessionOpt.cookie.secure = true; // serve secure cookies
-  }
-
-  app.use(session(sessionOpt));
-
-  // security
-  app.use(helmet());
-  // app.disable("x-powered-by");
-
-  // compression
-  app.use(compression());
-
-  // express body parser
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-
   // routes
   app.get("/", (req, res) => {
     res.send("hello world!");

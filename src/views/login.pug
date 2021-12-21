@@ -8,6 +8,7 @@ html(lang="en")
     body 
         h1 Login Page 
         form(action="/auth/login", method="post") 
+            input(type="hidden", name="_csrf" value=csrfToken)
             div
                 label(for="username") 
                     input#username(type="email", name="username")

@@ -1,6 +1,9 @@
 const fetch = require("node-fetch");
-const { TypeormStore } = require("connect-typeorm");
+const express = require("express");
+const csrf = require("csurf");
 
+const dbFactory = require("../db");
+const middleware = require("../middleware");
 const serverFactory = require("../server");
 const postRouterFactory = require("../router/post.router");
 const postTemplateFactory = require("../router/post.template");
@@ -10,48 +13,6 @@ const authRouterFactory = require("../router/auth.router");
 const postRepoFactory = require("../repo/post.repo");
 const userRepoFactory = require("../repo/user.repo");
 const authServiceFactory = require("../service/auth.service");
-const dbFactory = require("../db");
-
-async function appFactory() {
-  const db = await dbFactory();
-
-  const sessionRepo = await db.getRepository("Session");
-  const postRepo = await postRepoFactory(db);
-  const userRepo = await userRepoFactory(db);
-
-  // session storage
-  const sessionStore = new TypeormStore({
-    cleanupLimit: 2,
-    // limitSubquery: false, // If using MariaDB.
-    ttl: 86400,
-  }).connect(sessionRepo);
-
-  // populate posts
-  await populatePosts(postRepo);
-
-  // services
-  const authService = authServiceFactory(userRepo);
-
-  // router
-  const postRouter = postRouterFactory(postRepo);
-  const postTemplate = postTemplateFactory(postRepo);
-  const authTemplate = authTemplateFactory(authService);
-  const userRouter = userRouterFactory(userRepo, authService);
-  const authRouter = await authRouterFactory(authService);
-
-  const server = serverFactory({
-    sessionStore,
-    postRouter,
-    userRouter,
-    postTemplate,
-    authRouter,
-    authTemplate,
-  });
-
-  return server;
-}
-
-module.exports = appFactory;
 
 async function populatePosts(postRepo) {
   const dbPosts = await postRepo.getAll();
@@ -69,3 +30,45 @@ async function populatePosts(postRepo) {
     }
   }
 }
+
+async function appFactory() {
+  // app
+  const app = express();
+
+  // database
+  const db = await dbFactory();
+
+  // repo
+  const sessionRepo = await db.getRepository("Session");
+  const postRepo = await postRepoFactory(db);
+  const userRepo = await userRepoFactory(db);
+
+  // populate posts
+  await populatePosts(postRepo);
+
+  // middleware
+  const { csrfProtection } = middleware({ app, sessionRepo });
+
+  // services
+  const authService = authServiceFactory(userRepo);
+
+  // router
+  const postRouter = postRouterFactory(postRepo);
+  const postTemplate = postTemplateFactory(postRepo);
+  const authTemplate = authTemplateFactory(authService, csrfProtection);
+  const userRouter = userRouterFactory(userRepo, authService);
+  const authRouter = await authRouterFactory(authService);
+
+  const server = serverFactory({
+    app,
+    postRouter,
+    userRouter,
+    postTemplate,
+    authRouter,
+    authTemplate,
+  });
+
+  return server;
+}
+
+module.exports = appFactory;

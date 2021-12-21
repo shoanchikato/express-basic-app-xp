@@ -18,6 +18,7 @@ const validateCredentials = async (data) => {
   const schema = Joi.object({
     username: Joi.string().escape().required(),
     password: Joi.string().escape().required(),
+    _csrf: Joi.string(),
   }).options(joiValidationOptions);
 
   const { value, error } = await schema.validate(data);

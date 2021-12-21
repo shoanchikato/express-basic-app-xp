@@ -50,6 +50,7 @@ function authServiceFactory(userRepo) {
       throw new BadRequestError({
         message: "error logging in user",
         validation: errorMsgs,
+        reqBody: credentials,
       });
     }
 
