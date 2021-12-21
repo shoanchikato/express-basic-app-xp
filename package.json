@@ -7,7 +7,9 @@
     "start": "nodemon .",
     "fmt": "yarn prettier -w src",
     "run:migration": "yarn typeorm migration:run -f src/db/ormconfig.js",
-    "gen:migration": "yarn typeorm migration:generate -o -f src/db/ormconfig.js"
+    "gen:migration": "yarn typeorm migration:generate -o -f src/db/ormconfig.js",
+    "make:migration": "yarn typeorm migration:make -o -f src/db/ormconfig.js",
+    "show:migration": "yarn typeorm migration:show -f src/db/ormconfig.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -11,7 +11,7 @@ module.exports = {
   // database: `:memory:`,
   synchronize: true,
   entities: [UserModel, PostModel, SessionModel],
-  migrations: ["src/migration/*.js"],
+  migrations: ["migration/*.js"],
   cli: {
     migrationsDir: "migration",
   },
