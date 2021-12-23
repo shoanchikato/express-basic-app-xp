@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon .",
-    "fmt": "yarn prettier -w src",
+    "fmt": "yarn prettier -w src test",
+    "test": "yarn jest",
     "run:migration": "yarn typeorm migration:run -f src/db/ormconfig.js",
     "gen:migration": "yarn typeorm migration:generate -o -f src/db/ormconfig.js",
     "make:migration": "yarn typeorm migration:make -o -f src/db/ormconfig.js",
@@ -28,6 +29,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "jest": "^27.4.5",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1"
   }

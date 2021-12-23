@@ -4,7 +4,7 @@ const {
   BadRequestError,
 } = require("../error/errors");
 
-function userRepoFactory(userRepo) {
+function userRepoFactory(db) {
   // NB: if you are using email as the unique identify
   // make sure to first check if the unique identify
   // is already existing in the database and also by
@@ -12,7 +12,7 @@ function userRepoFactory(userRepo) {
   // check for database errors caused by voilating
   // the unique constraint rule
   const save = async (user) => {
-    const dbUser = await userRepo
+    const dbUser = await db
       .createQueryBuilder("user")
       .where("user.email = :email", { email: user.email })
       .getOne();
@@ -25,7 +25,7 @@ function userRepoFactory(userRepo) {
     }
 
     try {
-      return await userRepo.save(user);
+      return await db.save(user);
     } catch (err) {
       const isDuplicateError = err.message.toLowerCase().includes("unique");
       const isEmail = err.message.toLowerCase().includes("email");
@@ -42,7 +42,7 @@ function userRepoFactory(userRepo) {
   };
 
   const getAll = async () => {
-    const users = await userRepo
+    const users = await db
       .createQueryBuilder("user")
       .select(["user.id", "user.name", "user.last_name", "user.email"])
       .getMany();
@@ -51,7 +51,7 @@ function userRepoFactory(userRepo) {
   };
 
   const getById = async (id) => {
-    const user = await userRepo.findOne(id);
+    const user = await db.findOne(id);
 
     if (!user) {
       throw new NotFoundError(`user with id ${id} not found`);
@@ -62,7 +62,7 @@ function userRepoFactory(userRepo) {
 
   const deleteOne = async (id) => {
     try {
-      return await userRepo.delete(id);
+      return await db.delete(id);
     } catch (err) {
       throw new InternalServerError(`error occurred deleting user`);
     }
@@ -71,9 +71,9 @@ function userRepoFactory(userRepo) {
   const update = async (id, user) => {
     const dbUser = await getById(id);
 
-    userRepo.merge(dbUser, user);
+    db.merge(dbUser, user);
 
-    return await userRepo.save(dbUser);
+    return await db.save(dbUser);
   };
 
   const getAuthUsername = async (email) => {
