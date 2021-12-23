@@ -40,14 +40,13 @@ function middleware({ app, sessionRepo }) {
   app.use(express.urlencoded({ extended: true }));
 
   // app.use(cookieParser());
- 
+
   // security
   app.use(helmet());
   app.disable("x-powered-by");
 
   // compression
   app.use(compression());
-
 
   return { csrfProtection };
 }

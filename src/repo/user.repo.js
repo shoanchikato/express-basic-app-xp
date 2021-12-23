@@ -4,9 +4,7 @@ const {
   BadRequestError,
 } = require("../error/errors");
 
-function userRepoFactory(db) {
-  const userRepo = db.getRepository("User");
-
+function userRepoFactory(userRepo) {
   // NB: if you are using email as the unique identify
   // make sure to first check if the unique identify
   // is already existing in the database and also by

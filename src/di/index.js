@@ -37,11 +37,13 @@ async function appFactory() {
 
   // database
   const db = await dbFactory();
+  const dbPostRepo = db.getRepository("Post");
+  const dbUserRepo = db.getRepository("User");
 
   // repo
   const sessionRepo = await db.getRepository("Session");
-  const postRepo = await postRepoFactory(db);
-  const userRepo = await userRepoFactory(db);
+  const postRepo = await postRepoFactory(dbPostRepo);
+  const userRepo = await userRepoFactory(dbUserRepo);
 
   // populate posts
   await populatePosts(postRepo);

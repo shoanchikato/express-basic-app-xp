@@ -1,9 +1,7 @@
 const fetch = require("node-fetch");
 const { NotFoundError, InternalServerError } = require("../error/errors");
 
-async function postRepoFactory(db) {
-  const postRepo = db.getRepository("Post");
-
+async function postRepoFactory(postRepo) {
   const save = async (post) => {
     try {
       return await postRepo.save(post);
