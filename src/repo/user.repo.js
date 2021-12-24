@@ -25,7 +25,9 @@ function userRepoFactory(db) {
     }
 
     try {
-      return await db.save(user);
+      const dbUser = await db.save(user);
+      const { password, ...userValue } = dbUser;
+      return userValue;
     } catch (err) {
       const isDuplicateError = err.message.toLowerCase().includes("unique");
       const isEmail = err.message.toLowerCase().includes("email");
@@ -77,7 +79,7 @@ function userRepoFactory(db) {
   };
 
   const getAuthUsername = async (email) => {
-    const user = await userRepo
+    const user = await db
       .createQueryBuilder("user")
       .where("user.email = :email", { email })
       .select(["user.password"])

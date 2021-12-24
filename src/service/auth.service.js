@@ -35,7 +35,7 @@ function authServiceFactory(userRepo) {
 
     const newUser = { ...value, password: hash };
 
-    const { password, ...user } = await userRepo.save(newUser);
+    const user = await userRepo.save(newUser);
 
     return user;
   };

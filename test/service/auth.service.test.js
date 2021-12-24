@@ -1,12 +1,17 @@
 const authServiceFactory = require("../../src/service/auth.service");
 
 const mockUserRepo = {
-  save: jest.fn((user) => ({ ...user, id: 1 })),
-}
+  save: jest.fn((user) => {
+    // remove password field and add id field
+    const { password, ...userValue } = { ...user, id: 1 };
+
+    return userValue;
+  }),
+};
 
 describe("register user", () => {
   const authService = authServiceFactory(mockUserRepo);
-  
+
   beforeEach(jest.clearAllMocks);
 
   it("should return user object without password field", async () => {

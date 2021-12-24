@@ -3,7 +3,7 @@ const { BadRequestError } = require("../error/errors");
 const routerErrorHandler = require("../error/routerErrorHandler");
 const router = express.Router();
 
-function userRepoFactory(userRepo, authService) {
+function userRouterFactory(userRepo, authService) {
   const getIdParam = (reqParams) => {
     const id = parseInt(reqParams.id);
 
@@ -70,4 +70,4 @@ function userRepoFactory(userRepo, authService) {
   return router;
 }
 
-module.exports = userRepoFactory;
+module.exports = userRouterFactory;

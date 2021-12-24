@@ -3,6 +3,7 @@ const express = require("express");
 const csrf = require("csurf");
 
 const dbFactory = require("../db");
+const dbConnection = require("../db/ormconfig");
 const middleware = require("../middleware");
 const serverFactory = require("../server");
 const postRouterFactory = require("../router/post.router");
@@ -36,7 +37,7 @@ async function appFactory() {
   const app = express();
 
   // database
-  const db = await dbFactory();
+  const db = await dbFactory(dbConnection);
   const dbPostRepo = db.getRepository("Post");
   const dbUserRepo = db.getRepository("User");
 

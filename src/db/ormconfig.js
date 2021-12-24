@@ -5,7 +5,7 @@ const UserModel = require("../model/user.model");
 const PostModel = require("../model/post.model");
 const SessionModel = require("../model/session.model");
 
-module.exports = {
+const dbConnection = {
   type: "sqlite",
   database: `${root}/../sqlite.db`,
   // database: `:memory:`,
@@ -16,3 +16,5 @@ module.exports = {
     migrationsDir: "migration",
   },
 };
+
+module.exports = dbConnection;
