@@ -54,7 +54,7 @@ function authServiceFactory(userRepo) {
       });
     }
 
-    const user = await userRepo.getAuthUsername(value.username);
+    const user = await userRepo.getUserByEmail(value.username);
 
     if (!user) {
       // if user username/email is not found
