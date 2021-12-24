@@ -22,7 +22,7 @@ describe("user repository", () => {
       name: "name",
       last_name: "last name",
       email: "email@user.com",
-      password: "password",
+      password: "$2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O",
     });
 
     const expected = {
@@ -66,7 +66,7 @@ describe("user repository", () => {
   it("should get user by email", async () => {
     const received = await userRepo.getUserPasswordByEmail("email@user.com");
 
-    const expected = "password"
+    const expected = "$2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O"
 
     expect(received).toEqual(expected);
   });
