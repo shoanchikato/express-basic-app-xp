@@ -8,14 +8,8 @@ const mockUserRepo = {
     return userValue;
   }),
 
-  getUserByEmail: jest.fn((username) => {
-    return {
-      id: 1,
-      name: "name",
-      last_name: "last name",
-      email: "email@user.com",
-      password: "$2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O",
-    };
+  getUserPasswordByEmail: jest.fn((username) => {
+    return "$2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O"
   }),
 };
 
@@ -66,7 +60,7 @@ describe("register user", () => {
 
     const expected = true;
 
-    expect(mockUserRepo.getUserByEmail).toHaveBeenCalledTimes(1);
+    expect(mockUserRepo.getUserPasswordByEmail).toHaveBeenCalledTimes(1);
     expect(received).toEqual(expected);
   });
 });

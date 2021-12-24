@@ -54,10 +54,10 @@ function authServiceFactory(userRepo) {
       });
     }
 
-    const user = await userRepo.getUserByEmail(value.username);
+    const password = await userRepo.getUserPasswordByEmail(value.username);
 
-    if (!user) {
-      // if user username/email is not found
+    if (!password) {
+      // if password username/email is not found
       // wrong credentails were provided
       // NB: to avoid supplying details to hackers in brute
       // force attacks no detailed error message should be
@@ -69,7 +69,7 @@ function authServiceFactory(userRepo) {
 
     const isPasswordMatch = await matchPassword(
       credentials.password,
-      user.password
+      password
     );
 
     return isPasswordMatch;

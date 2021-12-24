@@ -78,17 +78,17 @@ function userRepoFactory(db) {
     return await db.save(dbUser);
   };
 
-  const getUserByEmail = async (email) => {
+  const getUserPasswordByEmail = async (email) => {
     const user = await db
       .createQueryBuilder("user")
       .where("user.email = :email", { email })
       .select(["user.password"])
       .getOne();
 
-    return user;
+    return user.password;
   };
 
-  return { save, getAll, getById, deleteOne, update, getUserByEmail };
+  return { save, getAll, getById, deleteOne, update, getUserPasswordByEmail };
 }
 
 module.exports = userRepoFactory;
