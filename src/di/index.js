@@ -3,7 +3,6 @@ const express = require("express");
 const csrf = require("csurf");
 
 const dbFactory = require("../db");
-const dbConnection = require("../db/ormconfig");
 const middleware = require("../middleware");
 const serverFactory = require("../server");
 const postRouterFactory = require("../router/post.router");
@@ -32,7 +31,7 @@ async function populatePosts(postRepo) {
   }
 }
 
-async function appFactory() {
+async function appFactory(dbConnection) {
   // app
   const app = express();
 
