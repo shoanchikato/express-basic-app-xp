@@ -49,4 +49,17 @@ describe("user repository", () => {
 
     expect(received).toEqual(expected);
   });
+
+  it("should get user by id", async () => {
+    const received = await userRepo.getById(1);
+
+    const expected = {
+      id: 1,
+      name: "name",
+      last_name: "last name",
+      email: "email@user.com",
+    }
+
+    expect(received).toEqual(expected);
+  });
 });

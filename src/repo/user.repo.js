@@ -53,7 +53,7 @@ function userRepoFactory(db) {
   };
 
   const getById = async (id) => {
-    const user = await db.findOne(id);
+    const {password, ...user} = await db.findOne(id);
 
     if (!user) {
       throw new NotFoundError(`user with id ${id} not found`);
