@@ -67,10 +67,7 @@ function authServiceFactory(userRepo) {
       });
     }
 
-    const isPasswordMatch = await matchPassword(
-      credentials.password,
-      password
-    );
+    const isPasswordMatch = await matchPassword(credentials.password, password);
 
     return isPasswordMatch;
   };

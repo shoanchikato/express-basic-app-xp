@@ -58,16 +58,40 @@ describe("user repository", () => {
       name: "name",
       last_name: "last name",
       email: "email@user.com",
-    }
+    };
 
     expect(received).toEqual(expected);
   });
-  
+
   it("should get user by email", async () => {
     const received = await userRepo.getUserPasswordByEmail("email@user.com");
 
-    const expected = "$2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O"
+    const expected =
+      "$2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O";
 
     expect(received).toEqual(expected);
+  });
+
+  it("should update user", async () => {
+    const received = await userRepo.update(1, {
+      name: "new name",
+      last_name: "new last name",
+      email: "new email@user.com",
+      password:
+        "new $2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O",
+    });
+
+    const expected = {
+      id: 1,
+      name: "new name",
+      last_name: "new last name",
+      email: "new email@user.com",
+    };
+
+    expect(received).toEqual(expected);
+  });
+
+  it("should delete a user", async () => {
+    await userRepo.deleteOne(1);
   });
 });

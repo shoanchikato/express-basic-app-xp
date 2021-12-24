@@ -9,7 +9,7 @@ const mockUserRepo = {
   }),
 
   getUserPasswordByEmail: jest.fn((username) => {
-    return "$2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O"
+    return "$2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O";
   }),
 };
 

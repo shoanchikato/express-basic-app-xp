@@ -53,16 +53,17 @@ function userRepoFactory(db) {
   };
 
   const getById = async (id) => {
-    const {password, ...user} = await db.findOne(id);
-
-    if (!user) {
+    try {
+      const { password, ...user } = await db.findOne(id);
+      return user;
+    } catch (error) {
       throw new NotFoundError(`user with id ${id} not found`);
     }
-
-    return user;
   };
 
   const deleteOne = async (id) => {
+    getById(id);
+
     try {
       return await db.delete(id);
     } catch (err) {
@@ -75,7 +76,9 @@ function userRepoFactory(db) {
 
     db.merge(dbUser, user);
 
-    return await db.save(dbUser);
+    const { password, ...userValue } = await db.save(dbUser);
+
+    return userValue;
   };
 
   const getUserPasswordByEmail = async (email) => {
