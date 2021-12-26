@@ -6,14 +6,17 @@ const { TypeormStore } = require("connect-typeorm");
 const csrf = require("csurf");
 const cookieParser = require("cookie-parser");
 
-const { APP_SESSION_COOKIE_NAME } = require("../constants");
+const {
+  APP_SESSION_COOKIE_NAME,
+  SERVER_SESSION_DURATION,
+} = require("../constants");
 
 function middleware({ app, sessionRepo }) {
   // session storage
   const sessionStore = new TypeormStore({
     cleanupLimit: 2,
     // limitSubquery: false, // If using MariaDB.
-    ttl: 86400,
+    ttl: SERVER_SESSION_DURATION, // seconds
   }).connect(sessionRepo);
 
   // session management

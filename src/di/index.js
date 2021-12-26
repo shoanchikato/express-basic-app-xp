@@ -34,13 +34,13 @@ async function populatePosts(postRepo) {
 }
 
 async function populatePrivilegs(privilegeRepo) {
-  const privileges = await privilegeRepo.getAll()
-  
-  if(privileges.length) {
-    return 
+  const privileges = await privilegeRepo.getAll();
+
+  if (privileges.length) {
+    return;
   }
 
-  const values = Object.values(PRIVILEGE).map((value) => ({name: value}));
+  const values = Object.values(PRIVILEGE).map((value) => ({ name: value }));
 
   try {
     await privilegeRepo.save(values);

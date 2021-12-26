@@ -1,4 +1,5 @@
 APP_SESSION_COOKIE_NAME = "app.sid";
+SERVER_SESSION_DURATION = 60 * 5; // seconds
 PRIVILEGE = {
   CREATE: "create",
   READ: "read",
@@ -10,4 +11,8 @@ PRIVILEGE = {
   BAN: "ban",
 };
 
-module.exports = { APP_SESSION_COOKIE_NAME, PRIVILEGE };
+module.exports = {
+  APP_SESSION_COOKIE_NAME,
+  SERVER_SESSION_DURATION,
+  PRIVILEGE,
+};
