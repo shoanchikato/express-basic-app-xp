@@ -6,7 +6,9 @@ async function postRepoFactory(db) {
     try {
       return await db.save(post);
     } catch (err) {
-      throw new InternalServerError(`error occurred saving post \n\n${err}`);
+      throw new InternalServerError(
+        `error occurred saving post \n\n${err.stack}`
+      );
     }
   };
 
@@ -24,7 +26,9 @@ async function postRepoFactory(db) {
     try {
       return await db.delete(id);
     } catch (err) {
-      throw new InternalServerError(`error occurred deleting post \n\n${err}`);
+      throw new InternalServerError(
+        `error occurred deleting post \n\n${err.stack}`
+      );
     }
   };
 

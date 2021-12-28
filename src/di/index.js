@@ -16,8 +16,8 @@ const userRepoFactory = require("../repo/user.repo");
 const authServiceFactory = require("../service/auth.service");
 const privilegeRepoFactory = require("../repo/privilege.repo");
 
-async function populatePosts(postRepo) {
-  const dbPosts = await postRepo.getAll();
+async function populatePosts(dbPostRepo) {
+  const dbPosts = await dbPostRepo.find();
 
   if (!dbPosts.length) {
     try {
@@ -25,16 +25,16 @@ async function populatePosts(postRepo) {
         "https://jsonplaceholder.typicode.com/posts"
       );
       const posts = await response.json();
-      console.log(posts);
-      postRepo.save(posts);
+      // console.log(posts);
+      await dbPostRepo.save(posts);
     } catch (error) {
       throw new Error(`Error completing http request \n\n${error}`);
     }
   }
 }
 
-async function populatePrivilegs(privilegeRepo) {
-  const privileges = await privilegeRepo.getAll();
+async function populatePrivilegs(dbPrivilegeRepo) {
+  const privileges = await dbPrivilegeRepo.find();
 
   if (privileges.length) {
     return;
@@ -43,7 +43,7 @@ async function populatePrivilegs(privilegeRepo) {
   const values = Object.values(PRIVILEGE).map((value) => ({ name: value }));
 
   try {
-    await privilegeRepo.save(values);
+    await dbPrivilegeRepo.save(values);
   } catch (error) {
     throw new Error(`Error setting privileges in the database \n\n${error}`);
   }
@@ -66,8 +66,8 @@ async function appFactory(dbConnection) {
   const privilegeRepo = await privilegeRepoFactory(dbPrivilegeRepo);
 
   // populate posts
-  await populatePosts(postRepo);
-  await populatePrivilegs(privilegeRepo);
+  await populatePosts(dbPostRepo);
+  await populatePrivilegs(dbPrivilegeRepo);
 
   // middleware
   const { csrfProtection } = middleware({ app, sessionRepo });
