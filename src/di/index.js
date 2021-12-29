@@ -15,6 +15,7 @@ const postRepoFactory = require("../repo/post.repo");
 const userRepoFactory = require("../repo/user.repo");
 const authServiceFactory = require("../service/auth.service");
 const privilegeRepoFactory = require("../repo/privilege.repo");
+const privilegeRouterFactory = require("../router/privilege.router");
 
 async function populatePosts(dbPostRepo) {
   const dbPosts = await dbPostRepo.find();
@@ -81,6 +82,7 @@ async function appFactory(dbConnection) {
   const authTemplate = authTemplateFactory(authService, csrfProtection);
   const userRouter = userRouterFactory(userRepo, authService);
   const authRouter = await authRouterFactory(authService);
+  const privilegeRouter = await privilegeRouterFactory(privilegeRepo);
 
   const server = serverFactory({
     app,
@@ -89,6 +91,7 @@ async function appFactory(dbConnection) {
     postTemplate,
     authRouter,
     authTemplate,
+    privilegeRouter,
   });
 
   return server;
