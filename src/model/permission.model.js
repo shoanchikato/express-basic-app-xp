@@ -9,7 +9,10 @@ const PermissionModel = new EntitySchema({
       type: "int",
       generated: true,
     },
-    permissionStatus: {
+    name: {
+      type: "varchar",
+    },
+    permission_status: {
       type: "varchar",
     },
   },

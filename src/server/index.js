@@ -10,6 +10,7 @@ function serverFactory({
   authRouter,
   authTemplate,
   privilegeRouter,
+  permissionRouter,
 }) {
   // routes
   app.get("/", (req, res) => {
@@ -22,6 +23,7 @@ function serverFactory({
   app.use("/api/users", userRouter);
   app.use("/api/auth", authRouter);
   app.use("/api/privileges", privilegeRouter);
+  app.use("/api/permissions", permissionRouter);
 
   // templates
   app.set("views", path.join(__dirname, "../views"));

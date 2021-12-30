@@ -12,6 +12,7 @@ const dbConnection = {
   database: `${root}/../sqlite.db`,
   // database: `:memory:`,
   synchronize: true,
+  dropSchema: true,
   entities: [
     UserModel,
     PostModel,
