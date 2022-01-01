@@ -12,14 +12,24 @@ const PermissionModel = new EntitySchema({
     name: {
       type: "varchar",
     },
-    permission_status: {
+    base_url: {
+      type: "varchar",
+    },
+    path: {
+      type: "varchar",
+    },
+    method: {
+      type: "varchar",
+    },
+    entity: {
       type: "varchar",
     },
   },
   relations: {
-    privileges: {
-      target: "Privilege",
+    action: {
+      target: "Action",
       type: "many-to-many",
+      // joinColumn: "action", // this decorator is optional for @ManyToOne, but required for @OneToOne
       joinTable: true,
       cascade: true,
     },

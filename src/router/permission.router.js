@@ -8,6 +8,7 @@ function permissionRouterFactory(permissionRepo) {
     "/",
     routerErrorHandler(async (req, res) => {
       const permissions = await permissionRepo.getAll();
+      
       res.json(permissions);
     })
   );
@@ -15,10 +16,7 @@ function permissionRouterFactory(permissionRepo) {
   router.post(
     "/",
     routerErrorHandler(async (req, res) => {
-      const permission = {
-        ...req.body,
-        permission_status: PERMISSION_STATUS.DEACTIVATE,
-      };
+      const permission = req.body;
       const savedPermission = await permissionRepo.save(permission);
       res.json(savedPermission);
     })

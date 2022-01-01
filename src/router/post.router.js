@@ -18,6 +18,7 @@ function postRouterFactory(postRepo) {
     "/",
     routerErrorHandler(async (req, res) => {
       const posts = await postRepo.getAll();
+      console.log("req route", req.query, req);
 
       res.json(posts);
     })

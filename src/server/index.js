@@ -11,6 +11,8 @@ function serverFactory({
   authTemplate,
   privilegeRouter,
   permissionRouter,
+  actionRouter,
+  roleRouter,
 }) {
   // routes
   app.get("/", (req, res) => {
@@ -24,6 +26,8 @@ function serverFactory({
   app.use("/api/auth", authRouter);
   app.use("/api/privileges", privilegeRouter);
   app.use("/api/permissions", permissionRouter);
+  app.use("/api/actions", actionRouter);
+  app.use("/api/roles", roleRouter);
 
   // templates
   app.set("views", path.join(__dirname, "../views"));

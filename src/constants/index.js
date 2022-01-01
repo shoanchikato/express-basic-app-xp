@@ -1,8 +1,9 @@
 APP_SESSION_COOKIE_NAME = "app.sid";
 SERVER_SESSION_DURATION = 60 * 5; // seconds
-PRIVILEGE = {
+ACTION = {
   CREATE: "create",
-  READ: "read",
+  GETALL: "getall",
+  GETONE: "getone",
   EDIT: "edit",
   DELETE: "delete",
   ACTIVATE: "activate",
@@ -18,6 +19,6 @@ PERMISSION_STATUS = {
 module.exports = {
   APP_SESSION_COOKIE_NAME,
   SERVER_SESSION_DURATION,
-  PRIVILEGE,
+  ACTION,
   PERMISSION_STATUS,
 };

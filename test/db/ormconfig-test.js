@@ -6,6 +6,8 @@ const PostModel = require("../../src/model/post.model");
 const PrivilegeModel = require("../../src/model/privilege.model");
 const SessionModel = require("../../src/model/session.model");
 const UserModel = require("../../src/model/user.model");
+const ActionModel = require("../../src/model/action.model");
+const RoleModel = require("../../src/model/role.model");
 
 const testDbConnection = {
   type: "sqlite",
@@ -19,6 +21,8 @@ const testDbConnection = {
     SessionModel,
     PrivilegeModel,
     PermissionModel,
+    ActionModel,
+    RoleModel,
   ],
   migrations: ["migration/*.js"],
   cli: {

@@ -11,7 +11,7 @@ function permissionRepoFactory(db) {
     }
   };
 
-  const getAll = async () => await db.find({ relations: ["privileges"] });
+  const getAll = async () => await db.find({ relations: ["action"] });
 
   return { save, getAll };
 }
