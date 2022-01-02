@@ -2,6 +2,8 @@ const express = require("express");
 const { PERMISSION_STATUS } = require("../constants");
 const router = express.Router();
 const routerErrorHandler = require("../error/routerErrorHandler");
+const { getIdParam } = require("./shared");
+const routerAuthMiddleware = require("../auth/router.auth.middleware");
 
 function permissionRouterFactory(permissionRepo) {
   router.get(
@@ -19,6 +21,18 @@ function permissionRouterFactory(permissionRepo) {
       const permission = req.body;
       const savedPermission = await permissionRepo.save(permission);
       res.json(savedPermission);
+    })
+  );
+
+  router.get(
+    "/:id",
+    routerAuthMiddleware,
+    routerErrorHandler(async (req, res) => {
+      const id = getIdParam(req.params);
+
+      const permission = await permissionRepo.getById(id);
+
+      return res.json(permission);
     })
   );
 

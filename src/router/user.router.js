@@ -1,19 +1,10 @@
 const express = require("express");
 const { BadRequestError } = require("../error/errors");
 const routerErrorHandler = require("../error/routerErrorHandler");
+const { getIdParam } = require("./shared");
 const router = express.Router();
 
 function userRouterFactory(userRepo, authService) {
-  const getIdParam = (reqParams) => {
-    const id = parseInt(reqParams.id);
-
-    if (!id) {
-      throw new BadRequestError({ message: `invalid user id ${reqParams.id}` });
-    }
-
-    return id;
-  };
-
   router.get(
     "/",
     routerErrorHandler(async (req, res) => {

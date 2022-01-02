@@ -22,6 +22,7 @@ const authRouterFactory = require("../router/auth.router");
 const privilegeRouterFactory = require("../router/privilege.router");
 const permissionRouterFactory = require("../router/permission.router");
 const roleRouterFactory = require("../router/role.router");
+const populatePermissions = require("../auth/populatePermissions");
 
 async function populatePosts(dbPostRepo) {
   const dbPosts = await dbPostRepo.find();
@@ -38,38 +39,6 @@ async function populatePosts(dbPostRepo) {
       throw new Error(`Error completing http request \n\n${error}`);
     }
   }
-}
-
-async function populatePermissions(dbPermissionRepo) {
-  const permissions = [
-    {
-      name: "create post",
-      base_url: "/api/posts",
-      path: "/",
-      method: "POST",
-      entity: "post",
-      action: "create",
-    },
-    {
-      name: "getall post",
-      base_url: "/api/posts",
-      path: "/",
-      method: "POST",
-      entity: "post",
-      action: "getall",
-    },
-    {
-      name: "getone post",
-      base_url: "/api/posts",
-      path: "/:id",
-      method: "POST",
-      entity: "post",
-      action: "getone",
-    },
-  ];
-  try {
-    dbPermissionRepo.save(permissions);
-  } catch (error) {}
 }
 
 async function appFactory(dbConnection) {
@@ -93,7 +62,7 @@ async function appFactory(dbConnection) {
   const roleRepo = await roleRepoFactory(dbRoleRepo);
 
   // populate database
-  await populatePosts(dbPostRepo);
+  // await populatePosts(dbPostRepo);
   await populatePermissions(dbPermissionRepo);
 
   // middleware

@@ -3,18 +3,9 @@ const { APP_SESSION_COOKIE_NAME } = require("../constants");
 const router = express.Router();
 
 const routerErrorHandler = require("../error/routerErrorHandler");
+const { getIdParam } = require("./shared");
 
 function postFactoryTemplate(postRepo) {
-  const getIdParam = (reqParams) => {
-    const id = parseInt(reqParams.id);
-
-    if (!id) {
-      throw new BadRequestError({ message: `invalid post id ${reqParams.id}` });
-    }
-
-    return id;
-  };
-
   router.get(
     "/",
     routerErrorHandler(async (req, res) => {

@@ -15,7 +15,9 @@ function permissionRepoFactory(db) {
 
   const getAll = async () => await db.find();
 
-  return { save, getAll };
+  const getById = async (id) => await db.findOne(id);
+
+  return { save, getAll, getById };
 }
 
 module.exports = permissionRepoFactory;
