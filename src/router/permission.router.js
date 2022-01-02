@@ -8,7 +8,7 @@ function permissionRouterFactory(permissionRepo) {
     "/",
     routerErrorHandler(async (req, res) => {
       const permissions = await permissionRepo.getAll();
-      
+
       res.json(permissions);
     })
   );

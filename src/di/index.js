@@ -2,7 +2,6 @@ const fetch = require("node-fetch");
 const express = require("express");
 const csrf = require("csurf");
 
-const { ACTION } = require("../constants");
 const dbFactory = require("../db");
 const middleware = require("../middleware");
 const serverFactory = require("../server");
@@ -12,7 +11,6 @@ const authServiceFactory = require("../service/auth.service");
 const postRepoFactory = require("../repo/post.repo");
 const userRepoFactory = require("../repo/user.repo");
 const privilegeRepoFactory = require("../repo/privilege.repo");
-const actionRepoFactory = require("../repo/action.repo");
 const permissionRepoFactory = require("../repo/permission.repo");
 const roleRepoFactory = require("../repo/role.repo");
 // router
@@ -23,7 +21,6 @@ const userRouterFactory = require("../router/user.router");
 const authRouterFactory = require("../router/auth.router");
 const privilegeRouterFactory = require("../router/privilege.router");
 const permissionRouterFactory = require("../router/permission.router");
-const actionRouterFactory = require("../router/action.router");
 const roleRouterFactory = require("../router/role.router");
 
 async function populatePosts(dbPostRepo) {
@@ -46,63 +43,33 @@ async function populatePosts(dbPostRepo) {
 async function populatePermissions(dbPermissionRepo) {
   const permissions = [
     {
-      name: "create posts",
+      name: "create post",
       base_url: "/api/posts",
       path: "/",
       method: "POST",
       entity: "post",
-      action: [
-        {
-          id: 1,
-        },
-      ],
+      action: "create",
     },
     {
-      name: "get all posts",
+      name: "getall post",
       base_url: "/api/posts",
       path: "/",
       method: "POST",
       entity: "post",
-      action: [
-        {
-          id: 2,
-          name: "getall",
-        },
-      ],
+      action: "getall",
     },
     {
-      name: "get individual post",
+      name: "getone post",
       base_url: "/api/posts",
       path: "/:id",
       method: "POST",
       entity: "post",
-      action: [
-        {
-          id: 3,
-          name: "getone",
-        },
-      ],
+      action: "getone",
     },
   ];
   try {
     dbPermissionRepo.save(permissions);
   } catch (error) {}
-}
-
-async function populateAction(dbActionRepo) {
-  const privileges = await dbActionRepo.find();
-
-  if (privileges.length) {
-    return;
-  }
-
-  const values = Object.values(ACTION).map((value) => ({ name: value }));
-
-  try {
-    await dbActionRepo.save(values);
-  } catch (error) {
-    throw new Error(`Error setting actions in the database \n\n${error}`);
-  }
 }
 
 async function appFactory(dbConnection) {
@@ -115,7 +82,6 @@ async function appFactory(dbConnection) {
   const dbUserRepo = db.getRepository("User");
   const dbPrivilegeRepo = db.getRepository("Privilege");
   const dbPermissionRepo = db.getRepository("Permission");
-  const dbActionRepo = db.getRepository("Action");
   const dbRoleRepo = db.getRepository("Role");
 
   // repo
@@ -124,13 +90,11 @@ async function appFactory(dbConnection) {
   const userRepo = await userRepoFactory(dbUserRepo);
   const privilegeRepo = await privilegeRepoFactory(dbPrivilegeRepo);
   const permissionRepo = await permissionRepoFactory(dbPermissionRepo);
-  const actionRepo = await actionRepoFactory(dbActionRepo);
   const roleRepo = await roleRepoFactory(dbRoleRepo);
 
   // populate database
   await populatePosts(dbPostRepo);
-  await populateAction(dbActionRepo);
-  await populatePermissions(dbPermissionRepo)
+  await populatePermissions(dbPermissionRepo);
 
   // middleware
   const { csrfProtection } = middleware({ app, sessionRepo });
@@ -146,7 +110,6 @@ async function appFactory(dbConnection) {
   const authRouter = await authRouterFactory(authService);
   const privilegeRouter = await privilegeRouterFactory(privilegeRepo);
   const permissionRouter = await permissionRouterFactory(permissionRepo);
-  const actionRouter = await actionRouterFactory(actionRepo);
   const roleRouter = await roleRouterFactory(roleRepo);
 
   const server = serverFactory({
@@ -158,7 +121,6 @@ async function appFactory(dbConnection) {
     authTemplate,
     privilegeRouter,
     permissionRouter,
-    actionRouter,
     roleRouter,
   });
 

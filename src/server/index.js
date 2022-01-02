@@ -11,7 +11,6 @@ function serverFactory({
   authTemplate,
   privilegeRouter,
   permissionRouter,
-  actionRouter,
   roleRouter,
 }) {
   // routes
@@ -26,7 +25,6 @@ function serverFactory({
   app.use("/api/auth", authRouter);
   app.use("/api/privileges", privilegeRouter);
   app.use("/api/permissions", permissionRouter);
-  app.use("/api/actions", actionRouter);
   app.use("/api/roles", roleRouter);
 
   // templates

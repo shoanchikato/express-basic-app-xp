@@ -3,7 +3,9 @@ const { InternalServerError } = require("../error/errors");
 function permissionRepoFactory(db) {
   const save = async (permission) => {
     try {
-      return db.save(permission);
+      const name = `${permission.action} ${permission.entity}`;
+      const newPermission = { name, ...permission };
+      return db.save(newPermission);
     } catch (error) {
       throw new InternalServerError(
         `error occurred saving permission \n\n${error.stack}`
@@ -11,7 +13,7 @@ function permissionRepoFactory(db) {
     }
   };
 
-  const getAll = async () => await db.find({ relations: ["action"] });
+  const getAll = async () => await db.find();
 
   return { save, getAll };
 }

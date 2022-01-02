@@ -24,14 +24,8 @@ const PermissionModel = new EntitySchema({
     entity: {
       type: "varchar",
     },
-  },
-  relations: {
     action: {
-      target: "Action",
-      type: "many-to-many",
-      // joinColumn: "action", // this decorator is optional for @ManyToOne, but required for @OneToOne
-      joinTable: true,
-      cascade: true,
+      type: "varchar",
     },
   },
 });
