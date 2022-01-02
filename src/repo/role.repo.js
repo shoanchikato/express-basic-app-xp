@@ -14,7 +14,10 @@ function roleRepoFactory(db) {
 
   const getAll = async () => await db.find({ relations: ["permissions"] });
 
-  return { save, getAll };
+  const getById = async (id) =>
+    await db.findOne(id, { relations: ["permissions"] });
+
+  return { save, getAll, getById };
 }
 
 module.exports = roleRepoFactory;

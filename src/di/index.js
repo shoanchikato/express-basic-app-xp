@@ -66,7 +66,7 @@ async function appFactory(dbConnection) {
   await populatePermissions(dbPermissionRepo);
 
   // middleware
-  const { csrfProtection } = middleware({ app, sessionRepo });
+  const { csrfProtection } = await middleware({ app, sessionRepo, roleRepo });
 
   // services
   const authService = authServiceFactory(userRepo);

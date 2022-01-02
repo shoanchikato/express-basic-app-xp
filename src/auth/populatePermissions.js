@@ -27,7 +27,11 @@ async function populatePermissions(dbPermissionRepo) {
   ];
   try {
     dbPermissionRepo.save(permissions);
-  } catch (error) {}
+  } catch (error) {
+    console.log(
+      `Error saving permissions at application bootstrap, ${error.stack}`
+    );
+  }
 }
 
 module.exports = populatePermissions;

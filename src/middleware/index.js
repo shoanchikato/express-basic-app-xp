@@ -10,8 +10,9 @@ const {
   APP_SESSION_COOKIE_NAME,
   SERVER_SESSION_DURATION,
 } = require("../constants");
+const appAuthMiddleware = require("../auth/app.auth.middleware");
 
-function middleware({ app, sessionRepo }) {
+async function middleware({ app, sessionRepo, roleRepo }) {
   // session storage
   const sessionStore = new TypeormStore({
     cleanupLimit: 2,
@@ -50,6 +51,9 @@ function middleware({ app, sessionRepo }) {
 
   // compression
   app.use(compression());
+
+  // app auth middleware
+  app.use(await appAuthMiddleware(roleRepo));
 
   return { csrfProtection };
 }
