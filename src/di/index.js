@@ -1,6 +1,5 @@
 const fetch = require("node-fetch");
 const express = require("express");
-const csrf = require("csurf");
 
 const dbFactory = require("../db");
 const middleware = require("../middleware");
@@ -22,7 +21,8 @@ const authRouterFactory = require("../router/auth.router");
 const privilegeRouterFactory = require("../router/privilege.router");
 const permissionRouterFactory = require("../router/permission.router");
 const roleRouterFactory = require("../router/role.router");
-const populatePermissions = require("../auth/populatePermissions");
+// populate db
+const populateDatabase = require("../auth/populate.database");
 
 async function populatePosts(dbPostRepo) {
   const dbPosts = await dbPostRepo.find();
@@ -63,7 +63,7 @@ async function appFactory(dbConnection) {
 
   // populate database
   // await populatePosts(dbPostRepo);
-  await populatePermissions(dbPermissionRepo);
+  await populateDatabase();
 
   // middleware
   const { csrfProtection } = await middleware({ app, sessionRepo, roleRepo });
