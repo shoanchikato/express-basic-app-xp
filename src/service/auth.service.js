@@ -18,6 +18,7 @@ function authServiceFactory(userRepo) {
     return await bcrypt.compare(password, hash);
   };
 
+  // registerUser
   const registerUser = async (userReqBody) => {
     const { value, error } = await validateUser(userReqBody);
 
@@ -38,6 +39,7 @@ function authServiceFactory(userRepo) {
     return user;
   };
 
+  // loginUser
   const loginUser = async (credentials) => {
     const { value, error } = await validateCredentials(credentials);
 
@@ -52,10 +54,10 @@ function authServiceFactory(userRepo) {
       });
     }
 
-    const password = await userRepo.getUserPasswordByEmail(value.username);
+    const user = await userRepo.getUserByEmail(value.username);
 
-    if (!password) {
-      // if password username/email is not found
+    if (!user) {
+      // if user username/email is not found
       // wrong credentails were provided
       // NB: to avoid supplying details to hackers in brute
       // force attacks no detailed error message should be
@@ -65,7 +67,10 @@ function authServiceFactory(userRepo) {
       });
     }
 
-    const isPasswordMatch = await matchPassword(credentials.password, password);
+    const isPasswordMatch = await matchPassword(
+      credentials.password,
+      user.password
+    );
 
     return isPasswordMatch;
   };

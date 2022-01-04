@@ -7,6 +7,13 @@ const validateUser = async (data) => {
     last_name: Joi.string().escape().required(),
     email: Joi.string().escape().required(),
     password: Joi.string().escape().required(),
+    role: Joi.array()
+      .items(
+        Joi.object({
+          id: Joi.number(),
+        })
+      )
+      .required(),
     _csrf: Joi.string(),
   }).options(joiValidationOptions);
 

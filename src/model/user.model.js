@@ -17,12 +17,20 @@ module.exports = new EntitySchema({
     },
     email: {
       type: "varchar",
-      nullable: true,
+      // nullable: true,
       unique: true,
     },
     password: {
       type: "varchar",
-      nullable: true,
+    },
+  },
+  relations: {
+    role: {
+      target: "Role",
+      type: "many-to-many",
+      // joinColumn: "action", // this decorator is optional for @ManyToOne, but required for @OneToOne
+      joinTable: true,
+      cascade: true,
     },
   },
 });

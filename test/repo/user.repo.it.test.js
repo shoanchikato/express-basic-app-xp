@@ -1,6 +1,7 @@
 const dbFactory = require("../../src/db");
 const userRepoFactory = require("../../src/repo/user.repo");
 const testDbConnection = require("../db/ormconfig-test");
+const populateDatabase = require("../../src/auth/populate.database");
 
 let db;
 let dbUserRepo;
@@ -10,6 +11,7 @@ beforeAll(async () => {
   db = await dbFactory(testDbConnection);
   dbUserRepo = db.getRepository("User");
   userRepo = await userRepoFactory(dbUserRepo);
+  await populateDatabase();
 });
 
 beforeEach(async () => {
@@ -23,6 +25,7 @@ describe("user repository", () => {
       last_name: "last name",
       email: "email@user.com",
       password: "$2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O",
+      role: [{ id: 2 }],
     });
 
     const expected = {
@@ -30,6 +33,12 @@ describe("user repository", () => {
       name: "name",
       last_name: "last name",
       email: "email@user.com",
+      role: [
+        {
+          id: 2,
+          name: "user",
+        },
+      ],
     };
 
     expect(received).toEqual(expected);
@@ -44,6 +53,12 @@ describe("user repository", () => {
         name: "name",
         last_name: "last name",
         email: "email@user.com",
+        role: [
+          {
+            id: 2,
+            name: "user",
+          },
+        ],
       },
     ];
 
@@ -58,16 +73,33 @@ describe("user repository", () => {
       name: "name",
       last_name: "last name",
       email: "email@user.com",
+      role: [
+        {
+          id: 2,
+          name: "user",
+        },
+      ],
     };
 
     expect(received).toEqual(expected);
   });
 
   it("should get user by email", async () => {
-    const received = await userRepo.getUserPasswordByEmail("email@user.com");
+    const received = await userRepo.getUserByEmail("email@user.com");
 
-    const expected =
-      "$2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O";
+    const expected = {
+      id: 1,
+      name: "name",
+      last_name: "last name",
+      email: "email@user.com",
+      password: "$2a$10$Td1ySyPr9zqMYYXIwWDrk.C0U6Sm2YzpAJuemWfTomV3dRjPIXU3O",
+      role: [
+        {
+          id: 2,
+          name: "user",
+        },
+      ],
+    };
 
     expect(received).toEqual(expected);
   });
@@ -86,6 +118,12 @@ describe("user repository", () => {
       name: "new name",
       last_name: "new last name",
       email: "new email@user.com",
+      role: [
+        {
+          id: 2,
+          name: "user",
+        },
+      ],
     };
 
     expect(received).toEqual(expected);

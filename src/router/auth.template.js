@@ -13,11 +13,12 @@ function authTemplateFactory(authService, csrfProtection) {
   // post registration
   router.post("/register", csrfProtection, async (req, res) => {
     const csrfToken = req.csrfToken();
-    const registrationDetails = req.body;
-    console.log(registrationDetails);
+    const userReq = req.body;
+    const userDetails = { ...userReq, role: [{ id: userReq.role }] };
+    console.log(userDetails);
 
     try {
-      await authService.registerUser(req.body);
+      await authService.registerUser(userDetails);
       res.redirect("/auth/login");
     } catch (error) {
       console.log(error);

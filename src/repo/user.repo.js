@@ -25,7 +25,8 @@ function userRepoFactory(db) {
     }
 
     try {
-      const dbUser = await db.save(user);
+      const savedUser = await db.save(user);
+      const dbUser = await getById(savedUser.id);
       const { password, ...userValue } = dbUser;
       return userValue;
     } catch (err) {
@@ -38,7 +39,9 @@ function userRepoFactory(db) {
           reqBody: { email: user.email },
         });
       } else {
-        throw new InternalServerError(`error occurred saving user`);
+        throw new InternalServerError(
+          `error occurred saving user \n\n${err.stack}`
+        );
       }
     }
   };
@@ -46,7 +49,8 @@ function userRepoFactory(db) {
   const getAll = async () => {
     const users = await db
       .createQueryBuilder("user")
-      .select(["user.id", "user.name", "user.last_name", "user.email"])
+      .leftJoinAndSelect("user.role", "role")
+      .select(["user.id", "user.name", "user.last_name", "user.email", "role"])
       .getMany();
 
     return users;
@@ -54,7 +58,9 @@ function userRepoFactory(db) {
 
   const getById = async (id) => {
     try {
-      const { password, ...user } = await db.findOne(id);
+      const { password, ...user } = await db.findOne(id, {
+        relations: ["role"],
+      });
       return user;
     } catch (error) {
       throw new NotFoundError(`user with id ${id} not found`);
@@ -81,21 +87,21 @@ function userRepoFactory(db) {
     return userValue;
   };
 
-  const getUserPasswordByEmail = async (email) => {
+  const getUserByEmail = async (email) => {
     const user = await db
       .createQueryBuilder("user")
+      .leftJoinAndSelect("user.role", "role")
       .where("user.email = :email", { email })
-      .select(["user.password"])
       .getOne();
 
     if (user) {
-      return user.password;
+      return user;
     }
 
     return null;
   };
 
-  return { save, getAll, getById, deleteOne, update, getUserPasswordByEmail };
+  return { save, getAll, getById, deleteOne, update, getUserByEmail };
 }
 
 module.exports = userRepoFactory;
