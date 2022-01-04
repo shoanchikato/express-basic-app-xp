@@ -30,6 +30,7 @@ describe("user repository", () => {
 
     const expected = {
       id: 1,
+      uuid: expect.any(String),
       name: "name",
       last_name: "last name",
       email: "email@user.com",
@@ -50,6 +51,7 @@ describe("user repository", () => {
     const expected = [
       {
         id: 1,
+        uuid: expect.any(String),
         name: "name",
         last_name: "last name",
         email: "email@user.com",
@@ -70,6 +72,7 @@ describe("user repository", () => {
 
     const expected = {
       id: 1,
+      uuid: expect.any(String),
       name: "name",
       last_name: "last name",
       email: "email@user.com",
@@ -89,6 +92,7 @@ describe("user repository", () => {
 
     const expected = {
       id: 1,
+      uuid: expect.any(String),
       name: "name",
       last_name: "last name",
       email: "email@user.com",
@@ -115,6 +119,7 @@ describe("user repository", () => {
 
     const expected = {
       id: 1,
+      uuid: expect.any(String),
       name: "new name",
       last_name: "new last name",
       email: "new email@user.com",

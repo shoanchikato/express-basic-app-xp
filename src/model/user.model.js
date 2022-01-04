@@ -9,6 +9,11 @@ module.exports = new EntitySchema({
       type: "int",
       generated: true,
     },
+    uuid: {
+      type: "varchar",
+      generated: "uuid",
+      unique: true,
+    },
     name: {
       type: "varchar",
     },

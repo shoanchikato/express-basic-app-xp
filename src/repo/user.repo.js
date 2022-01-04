@@ -50,7 +50,7 @@ function userRepoFactory(db) {
     const users = await db
       .createQueryBuilder("user")
       .leftJoinAndSelect("user.role", "role")
-      .select(["user.id", "user.name", "user.last_name", "user.email", "role"])
+      .select(["user.id", "user.uuid", "user.name", "user.last_name", "user.email", "role"])
       .getMany();
 
     return users;
