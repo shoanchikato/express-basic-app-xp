@@ -35,8 +35,23 @@ function serverFactory({
   app.use(errorHandler);
 
   // method not found
+  // link: http://expressjs.com/en/api.html#res.format
+  // If the header is not specified, the first callback is invoked.
   app.use((req, res, next) => {
-    res.status(404).send({ error: "method not found" });
+    // res.status(404).send({ error: "method not found" });
+    res.status(404).format({
+      json: function () {
+        res.send({ error: "method not found" });
+      },
+
+      html: function () {
+        res.send("<h1>method not found</h1>");
+      },
+
+      text: function () {
+        res.send("method not found");
+      },
+    });
   });
 
   return app;

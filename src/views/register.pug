@@ -1,0 +1,31 @@
+extends template/main.template.pug
+
+block main
+    body
+        h1 Registration Page 
+        if error 
+          p error #{error}
+
+        form(action="/auth/register", method="post") 
+            input(type="hidden", name="_csrf" value=csrfToken)
+            div
+                label(for="username") username/email
+                br
+                input#username(type="email", name="username")
+            br
+            div
+                label(for="password") password
+                br
+                input#password(type="password", name="password" required minLength="8")
+            br
+            div
+                label(for="confirm_password") confirm password
+                br
+                input#password(type="password", name="confirm_password" required minLength="8")
+            br
+            if error 
+                div
+                    span #{error.message}
+                br
+
+            button(type="submit") Register

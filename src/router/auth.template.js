@@ -4,13 +4,35 @@ const router = express.Router();
 const { BadRequestError } = require("../error/errors");
 
 function authTemplateFactory(authService, csrfProtection) {
-  router.get("/login", csrfProtection, async (req, res) => {
-    console.log(req.session);
-    const token = req.csrfToken();
-    res.render("login", { csrfToken: token });
+  // get registration
+  router.get("/register", csrfProtection, async (req, res) => {
+    const csrfToken = req.csrfToken();
+    res.render("register", { csrfToken });
   });
 
+  // post registration
+  router.post("/register", csrfProtection, async (req, res) => {
+    const csrfToken = req.csrfToken();
+    const registrationDetails = req.body;
+    console.log(registrationDetails);
+
+    try {
+      res.redirect("/auth/login");
+    } catch (error) {
+      console.log(error);
+      res.render("register", { error: "error registering", csrfToken });
+    }
+  });
+
+  // get login
+  router.get("/login", csrfProtection, async (req, res) => {
+    const csrfToken = req.csrfToken();
+    res.render("login", { csrfToken });
+  });
+
+  // post login
   router.post("/login", csrfProtection, async (req, res) => {
+    const csrfToken = req.csrfToken();
     const credentials = req.body;
 
     try {
@@ -28,11 +50,11 @@ function authTemplateFactory(authService, csrfProtection) {
           reqBody: req.body,
         });
       }
-    } catch (err) {
+    } catch (error) {
       // catch errors from both service and
       // invalid login
-      res.render("login", { error: err });
-      console.error(err);
+      res.render("login", { error, csrfToken });
+      console.error(error);
     }
   });
 

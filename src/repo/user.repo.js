@@ -88,7 +88,11 @@ function userRepoFactory(db) {
       .select(["user.password"])
       .getOne();
 
-    return user.password;
+    if (user) {
+      return user.password;
+    }
+
+    return null;
   };
 
   return { save, getAll, getById, deleteOne, update, getUserPasswordByEmail };

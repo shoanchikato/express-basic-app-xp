@@ -18,7 +18,7 @@ const roles = [
     permissions: [
       {
         id: 1,
-      }
+      },
     ],
   },
 ];
