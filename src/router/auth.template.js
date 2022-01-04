@@ -17,10 +17,11 @@ function authTemplateFactory(authService, csrfProtection) {
     console.log(registrationDetails);
 
     try {
+      await authService.registerUser(req.body);
       res.redirect("/auth/login");
     } catch (error) {
       console.log(error);
-      res.render("register", { error: "error registering", csrfToken });
+      res.render("register", { error: error, csrfToken });
     }
   });
 

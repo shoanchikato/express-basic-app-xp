@@ -23,8 +23,6 @@ function authServiceFactory(userRepo) {
 
     if (error) {
       const errorMsgs = error.details.map((err) => err.message);
-      console.error(errorMsgs);
-
       throw new BadRequestError({
         message: "error registering user",
         validation: errorMsgs,

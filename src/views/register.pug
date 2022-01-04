@@ -9,23 +9,28 @@ block main
         form(action="/auth/register", method="post") 
             input(type="hidden", name="_csrf" value=csrfToken)
             div
-                label(for="username") username/email
+                label(for="name") name
                 br
-                input#username(type="email", name="username")
+                input#name(type="text", name="name" required)
+            br
+            div
+                label(for="last_name") last name
+                br
+                input#name(type="text", name="last_name" required)
+            br
+            div
+                label(for="email") email/username
+                br
+                input#name(type="email", name="email" required)
             br
             div
                 label(for="password") password
                 br
                 input#password(type="password", name="password" required minLength="8")
             br
-            div
-                label(for="confirm_password") confirm password
-                br
-                input#password(type="password", name="confirm_password" required minLength="8")
-            br
             if error 
                 div
-                    span #{error.message}
+                    span #{error.validation}
                 br
 
             button(type="submit") Register
