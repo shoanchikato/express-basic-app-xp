@@ -69,7 +69,7 @@ async function appFactory(dbConnection) {
   const { csrfProtection } = await middleware({ app, sessionRepo, roleRepo });
 
   // services
-  const authService = authServiceFactory(userRepo);
+  const authService = authServiceFactory(userRepo, roleRepo);
 
   // router
   const postRouter = postRouterFactory(postRepo);

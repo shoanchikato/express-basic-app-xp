@@ -72,7 +72,11 @@ function authServiceFactory(userRepo, roleRepo) {
       user.password
     );
 
-    return isPasswordMatch;
+    const role = await roleRepo.getById(user.role.id);
+
+    const userWithRoleDetails = { ...user, role };
+
+    return { isPasswordMatch, user: userWithRoleDetails };
   };
 
   return { registerUser, loginUser };

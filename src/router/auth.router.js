@@ -21,10 +21,15 @@ async function authRouterFactory(authService) {
     routerErrorHandler(async (req, res) => {
       const credentials = req.body;
 
-      const isPasswordMatch = await authService.loginUser(credentials);
+      const { isPasswordMatch, user } = await authService.loginUser(
+        credentials
+      );
 
       if (isPasswordMatch) {
-        req.session.isAuthenticated = true;
+        req.session.user = {
+          role: user.role,
+          uuid: user.uuid,
+        };
 
         res.send("login success");
       } else {
