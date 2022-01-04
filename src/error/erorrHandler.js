@@ -62,11 +62,11 @@ const errorHandler = (err, req, res, next) => {
         text: function () {
           res.send("sorry, something went wrong");
         },
-  
+
         html: function () {
           res.send("<h1>sorry, something went wrong</h1>");
         },
-  
+
         json: function () {
           res.send({ error: "sorry, something went wrong" });
         },
