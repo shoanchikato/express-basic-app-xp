@@ -27,7 +27,7 @@ async function authRouterFactory(authService) {
 
       if (isPasswordMatch) {
         req.session.user = {
-          role: user.role,
+          permissions: user.role.permissions,
           uuid: user.uuid,
         };
 

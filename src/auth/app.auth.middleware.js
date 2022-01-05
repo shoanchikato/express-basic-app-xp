@@ -3,10 +3,9 @@ async function appAuthMiddleware(roleRepo) {
     // if user is authenticated and has roles object
     // then get role id and add permissions related
     // to that specific role
-    if (req.session.roles) {
-      const { id: roleId } = req.session.role;
-      const role = await roleRepo.getById(roleId);
-      req.permissions = role.permissions;
+    if (req.session.user) {
+      const { user } = req.session
+      console.log("app.auth.middleware", user);
     }
 
     next();

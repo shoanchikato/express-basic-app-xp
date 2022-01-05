@@ -2,14 +2,15 @@ const express = require("express");
 const router = express.Router();
 
 const routerErrorHandler = require("../error/routerErrorHandler");
+const routerAuthMiddleware = require("../auth/router.auth.middleware")
 const { getIdParam } = require("./shared");
 
 function postRouterFactory(postRepo) {
   router.get(
     "/",
+    routerAuthMiddleware,
     routerErrorHandler(async (req, res) => {
       const posts = await postRepo.getAll();
-      console.log("req route", req.query, req);
 
       res.json(posts);
     })
