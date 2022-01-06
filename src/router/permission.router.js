@@ -8,6 +8,7 @@ const routerAuthMiddleware = require("../auth/router.auth.middleware");
 function permissionRouterFactory(permissionRepo) {
   router.get(
     "/",
+    routerAuthMiddleware,
     routerErrorHandler(async (req, res) => {
       const permissions = await permissionRepo.getAll();
 
@@ -17,6 +18,7 @@ function permissionRouterFactory(permissionRepo) {
 
   router.post(
     "/",
+    routerAuthMiddleware,
     routerErrorHandler(async (req, res) => {
       const permission = req.body;
       const savedPermission = await permissionRepo.save(permission);
@@ -26,6 +28,7 @@ function permissionRouterFactory(permissionRepo) {
 
   router.get(
     "/:id",
+    routerAuthMiddleware,
     routerAuthMiddleware,
     routerErrorHandler(async (req, res) => {
       const id = getIdParam(req.params);

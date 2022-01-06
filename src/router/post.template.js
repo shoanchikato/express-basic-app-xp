@@ -1,4 +1,5 @@
 const express = require("express");
+const routerAuthMiddleware = require("../auth/router.auth.middleware");
 const { APP_SESSION_COOKIE_NAME } = require("../constants");
 const router = express.Router();
 
@@ -8,6 +9,7 @@ const { getIdParam } = require("./shared");
 function postFactoryTemplate(postRepo) {
   router.get(
     "/",
+    routerAuthMiddleware,
     routerErrorHandler(async (req, res) => {
       const posts = await postRepo.getAll();
 
@@ -26,18 +28,22 @@ function postFactoryTemplate(postRepo) {
     })
   );
 
-  router.get("/:id", async (req, res) => {
-    try {
-      const id = getIdParam(req.params);
+  router.get(
+    "/:id",
+    routerAuthMiddleware,
+    routerErrorHandler(async (req, res) => {
+      try {
+        const id = getIdParam(req.params);
 
-      const post = await postRepo.getById(id);
+        const post = await postRepo.getById(id);
 
-      res.render("post", { post });
-    } catch (err) {
-      res.render("post", { error: err });
-      console.log(`Error fetching post \n\n${err}`);
-    }
-  });
+        res.render("post", { post });
+      } catch (err) {
+        res.render("post", { error: err });
+        console.log(`Error fetching post \n\n${err}`);
+      }
+    })
+  );
 
   return router;
 }

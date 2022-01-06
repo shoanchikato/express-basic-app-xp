@@ -1,4 +1,5 @@
 const express = require("express");
+const routerAuthMiddleware = require("../auth/router.auth.middleware");
 const { BadRequestError } = require("../error/errors");
 const routerErrorHandler = require("../error/routerErrorHandler");
 const { getIdParam } = require("./shared");
@@ -7,6 +8,7 @@ const router = express.Router();
 function userRouterFactory(userRepo, authService) {
   router.get(
     "/",
+    routerAuthMiddleware,
     routerErrorHandler(async (req, res) => {
       const users = await userRepo.getAll();
 
@@ -16,6 +18,7 @@ function userRouterFactory(userRepo, authService) {
 
   router.get(
     "/:id",
+    routerAuthMiddleware,
     routerErrorHandler(async (req, res) => {
       const id = getIdParam(req.params);
 

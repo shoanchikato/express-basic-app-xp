@@ -10,6 +10,6 @@ beforeEach(async () => {
 
 describe("post template route", () => {
   it("should render posts html page", async () => {
-    const response = await request(app).get("/posts").expect(200);
+    const response = await request(app).get("/posts").expect(403);
   });
 });

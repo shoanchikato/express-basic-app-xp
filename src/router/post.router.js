@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const routerErrorHandler = require("../error/routerErrorHandler");
-const routerAuthMiddleware = require("../auth/router.auth.middleware")
+const routerAuthMiddleware = require("../auth/router.auth.middleware");
 const { getIdParam } = require("./shared");
 
 function postRouterFactory(postRepo) {
@@ -18,6 +18,7 @@ function postRouterFactory(postRepo) {
 
   router.get(
     "/:id",
+    routerAuthMiddleware,
     routerErrorHandler(async (req, res) => {
       const id = getIdParam(req.params);
 

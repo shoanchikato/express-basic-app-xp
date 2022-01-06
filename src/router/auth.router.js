@@ -3,10 +3,12 @@ const router = express.Router();
 
 const routerErrorHandler = require("../error/routerErrorHandler");
 const { BadRequestError } = require("../error/errors");
+const routerAuthMiddleware = require("../auth/router.auth.middleware");
 
 async function authRouterFactory(authService) {
   router.post(
     "/register",
+    routerAuthMiddleware,
     routerErrorHandler(async (req, res) => {
       const userReqBody = req.body;
 
@@ -18,6 +20,7 @@ async function authRouterFactory(authService) {
 
   router.post(
     "/login",
+    routerAuthMiddleware,
     routerErrorHandler(async (req, res) => {
       const credentials = req.body;
 
